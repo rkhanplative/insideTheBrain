@@ -1,1 +1,2 @@
-## Utilizing NeuroSky Mindwave Mobile Headset and ML to predict basic thoughts
+#EEG_Learning
+Utlizing NueroSky Mindwave Mobile, ML, and python3 to predict basic thoughts based upon patterns in EEG readings
