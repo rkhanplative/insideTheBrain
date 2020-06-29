@@ -10,9 +10,8 @@ class headset(object):
         #Connect to Minwave device at localhost throught port 13854
         self.tn = telnetlib.Telnet('127.0.0.1',13854)
 
-        #Initializing Raw EEG array and time array
+        #Initializing Raw EEG array
         self.raw_eeg_arr = []
-        self.time_arr = []
 
         #utilizing built in thinkGearConnector sdk, enable raw output
         self.tn.write('{"enableRawOutput": true, "format": "Json"}'.encode('ascii'))
@@ -55,13 +54,5 @@ class headset(object):
             csv_writer = writer(write_obj)
             for row in self.raw_eeg_arr:
                 csv_writer.writerow(row[:self.saveLen+1])
-    
-    #Plotting a graph of Time vs. Eeg Values
-    def graphData(self):
-        plt.plot(self.time_arr,self.raw_eeg_arr)
-        plt.ylabel("raw Eeg Values")
-        plt.xlabel("time")
-
-        plt.show()
 
 
