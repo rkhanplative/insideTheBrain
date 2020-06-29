@@ -1,0 +1,114 @@
+<!doctype html>
+<title>Data Gathering / Training</title>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=B612&display=swap" rel="stylesheet">
+</head>
+<body>
+  <span id="time"></span>
+  <br>
+  <br>
+  "When seeing the number say it in your head."
+  <br>
+  <br>
+  <div id = "numBox">
+    <span id = "num"></span>
+  </div>
+  <br>
+  <br>
+  <a href=# id="test">
+    <button id="start" onclick="start();">Start Training Session</button>
+  </a>
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type=text/javascript>
+  $(function() {
+          $('a#test').bind('click', function() {
+            $.getJSON('/background_process/',
+                function(data) {
+                  console.log(data);
+            });
+            return false;
+          });
+        });
+  var timerId = 0;
+  var timeLeft = 0;
+  var minLeft = 0;
+  var secLeft = 0;
+  var elem = document.getElementById('time');
+  var arrCount = 0;
+  var nums = {{ data }};
+  //Start Training Session
+  function start(){
+    timeLeft = 150;
+    timerId = setInterval(countdown, 1000);
+    arrCount = 0
+  }
+
+  //Function Responsible for telling time remaining of session
+  function countdown() {
+      if (timeLeft == -1) {
+          clearTimeout(timerId);
+          finishTraining();
+      } else {
+          minLeft = Math.trunc(timeLeft/60);
+          secLeft = timeLeft % 60;
+          if (minLeft > 1){
+            elem.innerHTML = minLeft + ' minutes and ' + secLeft + ' seconds remaining';
+          }
+          else if (minLeft == 1){
+            elem.innerHTML = minLeft + ' minute and ' + secLeft + ' seconds remaining';
+          }
+          else{
+            elem.innerHTML = timeLeft + ' seconds remaining';
+          }
+          if (Math.trunc(timeLeft) % 5 == 0){
+            document.getElementById("num").innerHTML = nums[arrCount];
+            arrCount++;
+          }
+          timeLeft--;
+      }
+  }  
+
+  //Function called to mark conclusion of training session
+  function finishTraining(){
+    elem.innerHTML = 'Training Session Complete.';
+    document.getElementById("num").innerHTML = "";
+  }
+
+  //Pushes a random number every second to the screen
+  function randomValue() {
+    var i = Math.floor(Math.random() * 11);
+    document.getElementById("num").innerHTML = i;
+  }
+</script>
+<style>
+  body{
+    padding:10%;
+    font-family: 'B612', sans-serif;
+    text-align:center;
+  }
+  #start{
+    padding:10px;
+    border-radius:10px;
+    color:whitesmoke;
+    font-size:150%;
+    background-color: midnightblue;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  }
+  #numBox{
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    border-style:solid;
+    border-color:black;
+    border-width:0.05px;
+    border-radius: 10px;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  }
+  #num{
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+    font-size: 500%;
+  }
+</style>
