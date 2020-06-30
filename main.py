@@ -22,7 +22,7 @@ log.setLevel(logging.ERROR)
 def training(name=None):
     return render_template('training.html',data=random_numbers)
 
-#Background process responsible for actual capturing of headset data at same right of random numbers being displayed to screen
+#Background process responsible for actual capturing of headset data at same rate of random numbers being displayed to screen
 @app.route('/background_process/')
 def train():
     time.sleep(1)
