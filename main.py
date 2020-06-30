@@ -8,6 +8,8 @@ import logging
 #Establishing Global Variables
 app = Flask(__name__)
 Headset = headset.headset()
+
+#random numbers that are displayed to screen for training
 random_numbers = [x for x in range(1,11)]*3
 random.shuffle(random_numbers)
 
